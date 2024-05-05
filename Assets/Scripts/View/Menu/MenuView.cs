@@ -1,3 +1,4 @@
+using System;
 using Services;
 using Services.EventBus;
 using Services.ServiceLocator;
@@ -10,11 +11,16 @@ namespace View
     public class MenuView : MonoBehaviour
     {
         private EventBus _eventBus;
-        
+
         private void Start()
         {
             var services = ServiceLocator.Current;
             _eventBus = services.Get<EventBus>();
+        }
+
+        private void OnEnable()
+        {
+            var services = ServiceLocator.Current;
             var score = transform.Find("Score");
             var scoreText = score.GetComponent<TMP_Text>();
             
