@@ -1,3 +1,4 @@
+using Services;
 using Services.ServiceLocator;
 using TMPro;
 using UnityEngine;
@@ -14,11 +15,18 @@ namespace View
             var scoreText = score.GetComponent<TMP_Text>();
             
             var time = services.Get<Timer>().Time;
+            var record = services.Get<HighScoreManager>().HighScore;
+            
             var minutes = Mathf.FloorToInt(time / 60f);
             var seconds = Mathf.FloorToInt(time % 60f);
             var milliseconds = Mathf.FloorToInt((time - Mathf.Floor(time)) * 100f);
             
-            scoreText.text = $"Record: {minutes:00}:{seconds:00}.{milliseconds:00}\nCurrent: {minutes:00}:{seconds:00}.{milliseconds:00}";
+            var recordMinutes = Mathf.FloorToInt(record / 60f);
+            var recordSeconds = Mathf.FloorToInt(record % 60f);
+            var recordMilliseconds = Mathf.FloorToInt((record - Mathf.Floor(record)) * 100f);
+            
+            scoreText.text = $"Record: {recordMinutes:00}:{recordSeconds:00}.{recordMilliseconds:00}\n" +
+                             $"Current: {minutes:00}:{seconds:00}.{milliseconds:00}";
         }
 
         public void MenuButton()

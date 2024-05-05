@@ -3,14 +3,13 @@ using System.Linq;
 using Services.EventBus;
 using Services.ServiceLocator;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace Systems
+namespace Services
 {
     public class FinishSystem : IService
     {
         private readonly List<Finish> _finishes = new List<Finish>();
-        private EventBus _eventBus;
+        private EventBus.EventBus _eventBus;
 
         public FinishSystem()
         {
@@ -19,13 +18,13 @@ namespace Systems
 
         private void Init()
         {
-            var services = ServiceLocator.Current;
-            _eventBus = services.Get<EventBus>();
+            var services = ServiceLocator.ServiceLocator.Current;
+            _eventBus = services.Get<EventBus.EventBus>();
             _eventBus.Subscribe(EventList.Finished, CheckAllFinishes);
         }
         public void AddFinish(Finish finish)
         {
-            Debug.Log($"added {finish}");
+            Debug.Log($"added {finish.GetHashCode()}");
             _finishes.Add(finish);
         }
 

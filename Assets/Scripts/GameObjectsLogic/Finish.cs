@@ -1,8 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Services;
 using Services.EventBus;
 using Services.ServiceLocator;
-using Systems;
 using UnityEngine;
 
 public class Finish : MonoBehaviour
@@ -30,7 +31,15 @@ public class Finish : MonoBehaviour
         var allRequiredContains = required.Count(r => _colliders.Contains(r)) == required.Count;
         
         IsFinished = (_colliders.Count >= needForFinish) && allRequiredContains;
-        
+
+        StartCoroutine(CallEventCoroutine());
+    }
+    
+    // ReSharper disable Unity.PerformanceAnalysis
+    private IEnumerator CallEventCoroutine()
+    {
+        yield return new WaitForSeconds(0.2f);
+
         Debug.Log("call EventList.Finished");
         _eventBus.CallEvent(EventList.Finished);
     }

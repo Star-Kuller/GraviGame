@@ -1,6 +1,6 @@
+using Services;
 using Services.EventBus;
 using Services.ServiceLocator;
-using Systems;
 using UnityEngine;
 
 public class LvlInitializer : MonoBehaviour
@@ -18,5 +18,7 @@ public class LvlInitializer : MonoBehaviour
             services.Unregister<Timer>();
         
         services.Register(new Timer());
+        
+        services.TryRegister(new HighScoreManager());
     }
 }
