@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MenuShower : MonoBehaviour
 {
+    [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject victory;
     [SerializeField] private GameObject loose;
@@ -24,22 +25,31 @@ public class MenuShower : MonoBehaviour
     {
         Debug.Log("Victory");
         background.SetActive(true);
+        pause.SetActive(false);
         victory.SetActive(true);
+        pauseButton.SetActive(false);
     }
     private void ShowPause()
     {
+        victory.SetActive(false);
         background.SetActive(true);
         pause.SetActive(true);
+        pauseButton.SetActive(false);
     }
 
     private void HiddenPause()
     {
         background.SetActive(false);
+        victory.SetActive(false);
         pause.SetActive(false);
+        pauseButton.SetActive(true);
     }
     private void ShowLoose()
     {
         background.SetActive(true);
+        pause.SetActive(false);
+        victory.SetActive(false);
         loose.SetActive(true);
+        pauseButton.SetActive(false);
     }
 }

@@ -9,6 +9,7 @@ namespace Services
         private readonly Stopwatch _stopwatch;
         public float Time => (float)_stopwatch.Elapsed.TotalSeconds;
         public bool TimerIsRunning => _stopwatch.IsRunning;
+        public bool TimerStarted { get; private set; } = false;
 
         public Timer()
         {
@@ -28,12 +29,19 @@ namespace Services
             eventBus.Subscribe(EventList.Finished, TimerStop);
         
             eventBus.Subscribe(EventList.Start, TimerStart);
-            eventBus.Subscribe(EventList.Resume, TimerStart);
+            eventBus.Subscribe(EventList.Resume, TimerResume);
+        }
+
+        private void TimerResume()
+        {
+            if (TimerStarted)
+                TimerStart();
         }
 
         private void TimerStart()
         {
             _stopwatch.Start();
+            TimerStarted = true;
             UnityEngine.Time.timeScale = 1f;
         }
 
