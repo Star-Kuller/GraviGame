@@ -27,21 +27,24 @@ public class MenuShower : MonoBehaviour
         background.SetActive(true);
         pause.SetActive(false);
         victory.SetActive(true);
+        loose.SetActive(false);
         pauseButton.SetActive(false);
     }
     private void ShowPause()
     {
-        victory.SetActive(false);
         background.SetActive(true);
         pause.SetActive(true);
+        victory.SetActive(false);
+        loose.SetActive(false);
         pauseButton.SetActive(false);
     }
 
     private void HiddenPause()
     {
         background.SetActive(false);
-        victory.SetActive(false);
         pause.SetActive(false);
+        victory.SetActive(false);
+        loose.SetActive(false);
         pauseButton.SetActive(true);
     }
     private void ShowLoose()
