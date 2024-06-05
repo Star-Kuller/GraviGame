@@ -4,8 +4,6 @@ namespace View
 {
     public class SparkView : MonoBehaviour
     {
-        public GameObject particlesImpactObject;
-        public GameObject particleSlipsObject;
         public float sparkImpactIntensity;
         public float sparkSlipIntensity;
         private ParticleSystem _particlesImpact;
@@ -15,7 +13,7 @@ namespace View
 
         private void Start()
         {
-        
+            var particlesImpactObject = transform.Find("Particle System impact");
             _forward = GetComponent<Transform>().forward;
             _particlesImpact = particlesImpactObject.GetComponent<ParticleSystem>();
             _particlesImpactTransform = particlesImpactObject.GetComponent<Transform>();
