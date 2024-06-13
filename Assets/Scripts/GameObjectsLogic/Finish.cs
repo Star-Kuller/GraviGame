@@ -35,12 +35,9 @@ public class Finish : MonoBehaviour
         StartCoroutine(CallEventCoroutine());
     }
     
-    // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator CallEventCoroutine()
     {
         yield return new WaitForSeconds(0.2f);
-
-        Debug.Log("call EventList.Finished");
         _eventBus.CallEvent(EventList.Finished);
     }
     

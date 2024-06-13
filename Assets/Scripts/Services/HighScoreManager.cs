@@ -8,6 +8,7 @@ namespace Services
     public class HighScoreManager : IService
     {
         private Timer _timer;
+        private const string KeyName = "LEVEL_SCORE";
 
         public HighScoreManager()
         {
@@ -32,7 +33,7 @@ namespace Services
         
         public void Save(float time)
         {
-            var key = $"LevelScore_{SceneManager.GetActiveScene().buildIndex}";
+            var key = $"{KeyName}_{SceneManager.GetActiveScene().buildIndex}";
             var currentBestScore = PlayerPrefs.GetFloat(key, float.MaxValue);
             
             if (time > currentBestScore) return;
@@ -44,7 +45,7 @@ namespace Services
 
         private float Get(int levelIndex)
         {
-            var key = $"LevelScore_{levelIndex}";
+            var key = $"{KeyName}_{levelIndex}";
             var val = PlayerPrefs.GetFloat(key, 0);
             Debug.Log($"get record {key} : {val}");
             return val;
