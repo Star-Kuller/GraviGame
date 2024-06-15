@@ -38,8 +38,7 @@ namespace Audio
 
         private void OnCollisionStay2D(Collision2D other)
         {
-            Debug.Log("SlideSpeed: " + other.relativeVelocity.magnitude);
-            audioSource.volume = Mathf.Clamp(other.relativeVelocity.magnitude * _soundVolume, 0, 1);
+            audioSource.volume = Mathf.Clamp(other.relativeVelocity.magnitude / 3 , 0, 1) * _soundVolume;
         }
 
         private void OnCollisionExit2D(Collision2D _)
