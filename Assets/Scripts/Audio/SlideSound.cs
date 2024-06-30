@@ -7,7 +7,6 @@ namespace Audio
 {
     public class SlideSound : MonoBehaviour
     {
-        private float _soundVolume;
         [SerializeField] private AudioSource audioSource;
         private const string SoundsVolumeKey = "SOUNDS_VOLUME";
         private void Start()
@@ -18,7 +17,6 @@ namespace Audio
             eventBus.Subscribe(EventList.Victory, Pause);
             eventBus.Subscribe(EventList.Loose, Pause);
             eventBus.Subscribe(EventList.Resume, UnPause);
-            _soundVolume = PlayerPrefs.GetFloat(SoundsVolumeKey, audioSource.volume);
         }
 
         private void Pause()
@@ -38,7 +36,7 @@ namespace Audio
 
         private void OnCollisionStay2D(Collision2D other)
         {
-            audioSource.volume = Mathf.Clamp(other.relativeVelocity.magnitude / 3 , 0, 1) * _soundVolume;
+            audioSource.volume = Mathf.Clamp(other.relativeVelocity.magnitude / 3 , 0, 1);
         }
 
         private void OnCollisionExit2D(Collision2D _)
