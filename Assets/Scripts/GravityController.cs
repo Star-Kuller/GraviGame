@@ -34,8 +34,6 @@ public class GravityController : MonoBehaviour, IBeginDragHandler, IDragHandler
                 new Vector2(0, GravityValue) : // up
                 new Vector2(0, -GravityValue); // down
         }
-
-        Debug.Log($"Gravity: {Physics2D.gravity}");
     }
     
     public void OnDrag(PointerEventData data)

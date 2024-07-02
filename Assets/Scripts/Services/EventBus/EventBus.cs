@@ -7,7 +7,7 @@ namespace Services.EventBus
 {
     public class EventBus : IService
     {
-        private Dictionary<EventList, UnityEvent> _events = new Dictionary<EventList, UnityEvent>();
+        private readonly Dictionary<EventList, UnityEvent> _events = new Dictionary<EventList, UnityEvent>();
 
         public EventBus()
         {

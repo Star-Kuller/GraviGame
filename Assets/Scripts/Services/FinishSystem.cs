@@ -24,7 +24,6 @@ namespace Services
         }
         public void AddFinish(Finish finish)
         {
-            Debug.Log($"added {finish.GetHashCode()}");
             _finishes.Add(finish);
         }
 
