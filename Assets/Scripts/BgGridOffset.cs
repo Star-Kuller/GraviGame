@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MovebleWith : MonoBehaviour
+public class BgGridOffset : MonoBehaviour
 {
     public GameObject target;
     public float coefficient;

@@ -491,6 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139d1e7d6a6e7fa429e28f0a9e5783da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationDuration: 0.45
 --- !u!1 &319751669
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +580,7 @@ GameObject:
   - component: {fileID: 459646739}
   - component: {fileID: 459646738}
   - component: {fileID: 459646737}
+  - component: {fileID: 1165514958}
   m_Layer: 5
   m_Name: Loose
   m_TagString: Untagged
@@ -659,6 +661,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f1c3461a7e48e69a5190f64e23e842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideAnimationDuration: 0.45
+--- !u!114 &1165514958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459646735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a698ed00294eb8a49b40572a5a4ff845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationDuration: 0.45
 --- !u!1 &638004142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1940,6 +1956,7 @@ GameObject:
   - component: {fileID: 1657142655}
   - component: {fileID: 1657142654}
   - component: {fileID: 1657142653}
+  - component: {fileID: 526653726}
   m_Layer: 5
   m_Name: Pause
   m_TagString: Untagged
@@ -2021,6 +2038,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f1c3461a7e48e69a5190f64e23e842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideAnimationDuration: 0.45
+--- !u!114 &526653726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657142651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a698ed00294eb8a49b40572a5a4ff845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationDuration: 0.45
 --- !u!1 &1814055318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,6 +2336,7 @@ GameObject:
   - component: {fileID: 2082986979}
   - component: {fileID: 2082986978}
   - component: {fileID: 2082986980}
+  - component: {fileID: 34801493}
   m_Layer: 5
   m_Name: Victory
   m_TagString: Untagged
@@ -2387,6 +2419,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f1c3461a7e48e69a5190f64e23e842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideAnimationDuration: 0.45
+--- !u!114 &34801493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082986976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a698ed00294eb8a49b40572a5a4ff845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationDuration: 0.45
 --- !u!1 &2107137801
 GameObject:
   m_ObjectHideFlags: 0
@@ -3134,7 +3180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938c417d292a49d7b604a601c486d33a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseButton: {fileID: 150390799}
   background: {fileID: 30845357}
   victory: {fileID: 2082986976}
   loose: {fileID: 459646735}

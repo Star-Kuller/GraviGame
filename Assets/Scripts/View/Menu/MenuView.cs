@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Services;
 using Services.EventBus;
 using Services.ServiceLocator;
@@ -10,7 +11,17 @@ namespace View
 {
     public class MenuView : MonoBehaviour
     {
+        [SerializeField] private float hideAnimationDuration = 0.45f;
+        
         private EventBus _eventBus;
+        private RectTransform _uiElement;
+        private float _originalSizeY;
+        
+        private void Awake()
+        {
+            _uiElement = GetComponent<RectTransform>();
+            _originalSizeY = _uiElement.localScale.y;
+        }
 
         private void Start()
         {
@@ -66,7 +77,11 @@ namespace View
         
         public void ResumeButton()
         {
-            _eventBus.CallEvent(EventList.Resume);
+            _eventBus.CallEvent(EventList.ShowPauseButton);
+            _uiElement.DOScaleY(0, hideAnimationDuration)
+                .SetEase(Ease.InOutQuart)
+                .SetUpdate(UpdateType.Normal, true)
+                .OnComplete(() => _eventBus.CallEvent(EventList.Resume));
         }
     }
 }

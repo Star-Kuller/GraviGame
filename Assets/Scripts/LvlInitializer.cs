@@ -16,7 +16,6 @@ public class LvlInitializer : MonoBehaviour
 
         if (services.IsRegistered<Timer>())
             services.Unregister<Timer>();
-        
         services.Register(new Timer());
         
         services.TryRegister(new HighScoreManager());

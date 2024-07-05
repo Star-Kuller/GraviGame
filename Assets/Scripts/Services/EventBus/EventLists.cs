@@ -8,6 +8,7 @@ namespace Services.EventBus
         Loose = 4,
         Start = 5,
         Pause = 6,
-        Resume = 7
+        Resume = 7,
+        ShowPauseButton = 8
     }
 }
