@@ -61,7 +61,7 @@ namespace View
 
         public void MenuButton()
         {
-            
+            SceneManager.LoadScene(0);
         }
         
         public void RestartButton()

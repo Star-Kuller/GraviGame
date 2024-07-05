@@ -5122,8 +5122,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volume: 1
   pitch: 1.3
-  clip: {fileID: 8300000, guid: bd0b31b7b6f86564aad4c7ec1140fad0, type: 3}
+  clip: {fileID: 8300000, guid: 0cb11e6785a3b4c45ba091f22e9a0b2d, type: 3}
   audioMixerGroup: {fileID: 1204554609029351616, guid: 92aae125cddd07e499cd634f244bd984, type: 2}
+  coefficient: 4
 --- !u!114 &2408332463697293300
 MonoBehaviour:
   m_ObjectHideFlags: 0

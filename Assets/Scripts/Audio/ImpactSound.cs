@@ -12,12 +12,14 @@ namespace Audio
         [SerializeField] private float pitch = 1;
         [SerializeField] private AudioClip clip;
         [SerializeField] private AudioMixerGroup audioMixerGroup;
+        
+        [SerializeField] private float coefficient = 2.5f;
         private AudioSource _audioSource;
         private Rigidbody2D _rigidbody;
         private Vector2 _lastVelocity = new Vector2(0, 0);
         
         private float ImpactVolume => Mathf.Clamp(
-            (_lastVelocity.magnitude - _rigidbody.velocity.magnitude) / 3f,
+            (_lastVelocity.magnitude - _rigidbody.velocity.magnitude) / coefficient,
             0, 1);
 
         private void Start()
@@ -32,6 +34,11 @@ namespace Audio
             _rigidbody = GetComponent<Rigidbody2D>();
         }
 
+        private void Update()
+        {
+            _lastVelocity = _rigidbody.velocity;
+        }
+
         private void OnCollisionEnter2D(Collision2D _)
         {
             _audioSource.volume = ImpactVolume;
@@ -40,12 +47,10 @@ namespace Audio
 
         private void OnCollisionStay2D(Collision2D _)
         {
-            if (_lastVelocity.magnitude - _rigidbody.velocity.magnitude > 0.5f)
-            {
-                _audioSource.volume = ImpactVolume;
-                _audioSource.Play();
-            }
-            _lastVelocity = _rigidbody.velocity;
+            if (!(_lastVelocity.magnitude - _rigidbody.velocity.magnitude > 0.5f)) return;
+            
+            _audioSource.volume = ImpactVolume;
+            _audioSource.Play();
         }
     }
 }
