@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using DG.Tweening;
 using Services;
 using Services.EventBus;
@@ -61,20 +62,19 @@ namespace View
 
         public void MenuButton()
         {
-            SceneManager.LoadScene(0);
+            StartCoroutine(LoadMenu());
         }
         
         public void RestartButton()
         {
-            var sceneName = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(sceneName);
+            StartCoroutine(ReloadLevel());
         }
         
         public void NextButton()
         {
-            
+            StartCoroutine(LoadNextLevel());
         }
-        
+
         public void ResumeButton()
         {
             _eventBus.CallEvent(EventList.ShowPauseButton);
@@ -82,6 +82,26 @@ namespace View
                 .SetEase(Ease.InOutQuart)
                 .SetUpdate(UpdateType.Normal, true)
                 .OnComplete(() => _eventBus.CallEvent(EventList.Resume));
+        }
+
+        private static IEnumerator LoadMenu()
+        {
+            yield return new WaitForSecondsRealtime(0.4f);
+            SceneManager.LoadScene(0);
+        }
+        
+        private static IEnumerator ReloadLevel()
+        {
+            yield return new WaitForSecondsRealtime(0.4f);
+            var sceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(sceneName);
+        }
+        
+        private static IEnumerator LoadNextLevel()
+        {
+            yield return new WaitForSecondsRealtime(0.4f);
+            var sceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(sceneIndex + 1);
         }
     }
 }
