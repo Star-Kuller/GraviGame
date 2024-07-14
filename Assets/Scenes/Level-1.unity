@@ -1241,6 +1241,81 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &780255459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1902216955, guid: 71f39c069fd0dd044b26be4f5c1043ac, type: 3}
+  m_PrefabInstance: {fileID: 4589673947378045907}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &780255461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1902216957, guid: 71f39c069fd0dd044b26be4f5c1043ac, type: 3}
+  m_PrefabInstance: {fileID: 4589673947378045907}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780255459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &780255463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780255459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:f9eaf6c5f59ed5545a96646ab5457ee9
+    m_TableEntryReference:
+      m_KeyId: 324032263303168
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables:
+    - name: Score
+      variable:
+        rid: 4698643420034629822
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 780255461}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds:
+    - rid: 4698643420034629822
+      type: {class: ObjectVariable, ns: UnityEngine.Localization.SmartFormat.PersistentVariables, asm: Unity.Localization}
+      data:
+        m_Value: {fileID: 780255464}
+--- !u!114 &780255464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780255459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386ddf7540cc4704aff4f53490c4a267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &989673449 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1601775455, guid: 71f39c069fd0dd044b26be4f5c1043ac, type: 3}
@@ -2447,6 +2522,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1261728402, guid: 71f39c069fd0dd044b26be4f5c1043ac, type: 3}
       insertIndex: -1
       addedObject: {fileID: 583241634}
+    - targetCorrespondingSourceObject: {fileID: 1902216955, guid: 71f39c069fd0dd044b26be4f5c1043ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 780255463}
+    - targetCorrespondingSourceObject: {fileID: 1902216955, guid: 71f39c069fd0dd044b26be4f5c1043ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 780255464}
     - targetCorrespondingSourceObject: {fileID: 1222305064, guid: 71f39c069fd0dd044b26be4f5c1043ac, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1073132972}

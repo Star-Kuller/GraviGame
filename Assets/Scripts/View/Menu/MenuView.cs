@@ -16,12 +16,10 @@ namespace View
         
         private EventBus _eventBus;
         private RectTransform _uiElement;
-        private float _originalSizeY;
-        
+
         private void Awake()
         {
             _uiElement = GetComponent<RectTransform>();
-            _originalSizeY = _uiElement.localScale.y;
         }
 
         private void Start()
@@ -33,9 +31,7 @@ namespace View
         private void OnEnable()
         {
             var services = ServiceLocator.Current;
-            var score = transform.Find("Score");
-            var scoreText = score.GetComponent<TMP_Text>();
-            
+
             var time = services.Get<Timer>().Time;
             var record = services.Get<HighScoreManager>().HighScore;
             
@@ -47,17 +43,6 @@ namespace View
                 var right = scoreLineWidth - (Mathf.Clamp(record / time, 0, 1) * scoreLineWidth);
                 scoreLineTransform.offsetMax = new Vector2(-right, scoreLineTransform.offsetMax.y);
             }
-
-            var minutes = Mathf.FloorToInt(time / 60f);
-            var seconds = Mathf.FloorToInt(time % 60f);
-            var milliseconds = Mathf.FloorToInt((time - Mathf.Floor(time)) * 100f);
-            
-            var recordMinutes = Mathf.FloorToInt(record / 60f);
-            var recordSeconds = Mathf.FloorToInt(record % 60f);
-            var recordMilliseconds = Mathf.FloorToInt((record - Mathf.Floor(record)) * 100f);
-            
-            scoreText.text = $"Record: {recordMinutes:00}:{recordSeconds:00}.{recordMilliseconds:00}\n" +
-                             $"Current: {minutes:00}:{seconds:00}.{milliseconds:00}";
         }
 
         public void MenuButton()

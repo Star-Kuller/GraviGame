@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: f9eaf6c5f59ed5545a96646ab5457ee9, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 4698643420034629807
   m_TableData:
   - m_Id: 212352577536
     m_Localized: Delivered.exe
@@ -30,6 +31,19 @@ MonoBehaviour:
     m_Localized: Destroyed.exe
     m_Metadata:
       m_Items: []
+  - m_Id: 324032263303168
+    m_Localized: 'Record: {Score.RecordTime}
+
+      Current: {Score.CurrentTime}'
+    m_Metadata:
+      m_Items:
+      - rid: 4698643420034629807
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4698643420034629807
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 324032263303168

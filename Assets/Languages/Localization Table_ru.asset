@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: ru
   m_SharedData: {fileID: 11400000, guid: f9eaf6c5f59ed5545a96646ab5457ee9, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 4698643420034629808
   m_TableData:
   - m_Id: 212352577536
     m_Localized: "\u0414\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E.exe"
@@ -30,6 +31,18 @@ MonoBehaviour:
     m_Localized: "\u0423\u0442\u0435\u0440\u044F\u043D\u043E.exe"
     m_Metadata:
       m_Items: []
+  - m_Id: 324032263303168
+    m_Localized: "\u0420\u0435\u043A\u043E\u0440\u0434: {Score.RecordTime}\n\u0421\u0435\u0439\u0447\u0430\u0441:
+      {Score.CurrentTime}"
+    m_Metadata:
+      m_Items:
+      - rid: 4698643420034629808
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4698643420034629808
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 324032263303168
