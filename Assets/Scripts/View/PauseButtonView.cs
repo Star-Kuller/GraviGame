@@ -22,6 +22,8 @@ namespace View
         {
             var services = ServiceLocator.Current;
             _eventBus = services.Get<EventBus>();
+            _eventBus.Subscribe(EventList.Victory, HideAnimation);
+            _eventBus.Subscribe(EventList.Loose, HideAnimation);
             _eventBus.Subscribe(EventList.ShowPauseButton, ShowAnimation);
         }
 

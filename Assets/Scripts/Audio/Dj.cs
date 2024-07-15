@@ -22,6 +22,43 @@ namespace Audio
         private int NextSourceIndex => (_currentAudioSourceIndex + 1) % 2;
         private int NextClipIndex => (_currentClipIndex + 1) % audioClips.Count;
         
+        private bool _isApplicationPaused = false;
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            _isApplicationPaused = pauseStatus;
+            HandleApplicationStateChange();
+        }
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            _isApplicationPaused = !hasFocus;
+            HandleApplicationStateChange();
+        }
+
+        private void HandleApplicationStateChange()
+        {
+            if(_audioSources is not { Length: 2 }) return;
+            
+            if (_isApplicationPaused)
+            {
+                foreach (var source in _audioSources)
+                {
+                    if (source != null && source.isPlaying)
+                        source.Pause();
+                }
+            }
+            else
+            {
+                foreach (var source in _audioSources)
+                {
+                    if (source != null && !source.isPlaying)
+                        source.UnPause();
+                }
+            }
+        }
+        
+        
         private void Start()
         {
             _audioSources = new AudioSource[2];
@@ -31,7 +68,7 @@ namespace Audio
                 _audioSources[i].loop = false;
                 _audioSources[i].outputAudioMixerGroup = audioMixerGroup;
             }
-
+            
             if (audioClips.Count > 0)
             {
                 StartCoroutine(PlayAudioSequence());
@@ -46,12 +83,13 @@ namespace Audio
                 var nextSource = _audioSources[NextSourceIndex];
                 currentSource.clip = audioClips[_currentClipIndex];
                 nextSource.clip = audioClips[NextClipIndex];
-                if(!currentSource.isPlaying && !nextSource.isPlaying)
+
+                if(!currentSource.isPlaying && !nextSource.isPlaying && !IsPaused && !_isApplicationPaused)
                     currentSource.Play();
-                
+
                 StartCoroutine(PlayAudioWithFade(currentSource, nextSource));
                 
-                yield return new WaitUntil(() => !currentSource.isPlaying && !IsPaused);
+                yield return new WaitUntil(() => !currentSource.isPlaying && !IsPaused && !_isApplicationPaused);
                 _currentAudioSourceIndex = NextSourceIndex;
                 _currentClipIndex = NextClipIndex;
             }
@@ -59,11 +97,11 @@ namespace Audio
 
         private IEnumerator PlayAudioWithFade(AudioSource current, AudioSource next)
         {
-            while (current.isPlaying || IsPaused)
+            while (current.isPlaying || IsPaused || _isApplicationPaused)
             {
                 if (current.time >= current.clip.length - fadeDuration)
                 {
-                    if(!next.isPlaying && !IsPaused) next.Play();
+                    if(!next.isPlaying && !IsPaused && !_isApplicationPaused) next.Play();
                     var fade = (current.clip.length - current.time) / fadeDuration;
                     current.volume = fade;
                     next.volume = 1 - fade;
@@ -126,7 +164,7 @@ namespace Audio
                 nextSource.UnPause();
             }
         }
-        
+
         public void Next()
         {
             IsPaused = false;
