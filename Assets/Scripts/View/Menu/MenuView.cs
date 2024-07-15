@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
 using DG.Tweening;
-using Services;
 using Services.EventBus;
 using Services.ServiceLocator;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,23 +23,6 @@ namespace View
         {
             var services = ServiceLocator.Current;
             _eventBus = services.Get<EventBus>();
-        }
-
-        private void OnEnable()
-        {
-            var services = ServiceLocator.Current;
-
-            var time = services.Get<Timer>().Time;
-            var record = services.Get<HighScoreManager>().HighScore;
-            
-            var scoreLine = transform.Find("ScoreLine");
-            if (scoreLine != null)
-            {
-                var scoreLineWidth = scoreLine.GetComponent<RectTransform>().rect.width;
-                var scoreLineTransform = scoreLine.Find("ScoreIndicator").GetComponent<RectTransform>();
-                var right = scoreLineWidth - (Mathf.Clamp(record / time, 0, 1) * scoreLineWidth);
-                scoreLineTransform.offsetMax = new Vector2(-right, scoreLineTransform.offsetMax.y);
-            }
         }
 
         public void MenuButton()

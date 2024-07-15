@@ -1,20 +1,19 @@
-using System;
 using Services;
 using Services.ServiceLocator;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace View
 {
     public class TimerView : MonoBehaviour
     {
         private Timer _timer;
-        private Text _text;
+        private TextMeshProUGUI _text;
         private void Start()
         {
             var services = ServiceLocator.Current;
             _timer = services.Get<Timer>();
-            _text = GetComponent<Text>();
+            _text = GetComponent<TextMeshProUGUI>();
         }
 
         public void Update()
