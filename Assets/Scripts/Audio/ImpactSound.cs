@@ -16,7 +16,7 @@ namespace Audio
         [SerializeField] private float coefficient = 2.5f;
         private AudioSource _audioSource;
         private Rigidbody2D _rigidbody;
-        private Vector2 _lastVelocity = new Vector2(0, 0);
+        private Vector2 _lastVelocity = new (0, 0);
         
         private float ImpactVolume => Mathf.Clamp(
             (_lastVelocity.magnitude - _rigidbody.velocity.magnitude) / coefficient,
@@ -47,7 +47,7 @@ namespace Audio
 
         private void OnCollisionStay2D(Collision2D _)
         {
-            if (!(_lastVelocity.magnitude - _rigidbody.velocity.magnitude > 0.5f)) return;
+            if (!(_lastVelocity.magnitude - _rigidbody.velocity.magnitude > 0.25f)) return;
             
             _audioSource.volume = ImpactVolume;
             _audioSource.Play();
