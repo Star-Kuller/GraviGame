@@ -1,10 +1,11 @@
 using System.Diagnostics;
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 
 namespace Services
 {
-    public class Timer : IService
+    public class Timer : ITimer
     {
         private readonly Stopwatch _stopwatch;
         public float Time => (float)_stopwatch.Elapsed.TotalSeconds;
@@ -20,7 +21,7 @@ namespace Services
         private void Init()
         {
             var services = ServiceLocator.ServiceLocator.Current;
-            var eventBus = services.Get<EventBus.EventBus>();
+            var eventBus = services.Get<IEventBus>();
         
             eventBus.Subscribe(EventList.Finished, TimerStop);
             eventBus.Subscribe(EventList.Pause, TimerStop);

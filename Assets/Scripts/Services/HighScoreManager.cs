@@ -1,13 +1,14 @@
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Services
 {
-    public class HighScoreManager : IService
+    public class HighScoreManager : IHighScoreManager
     {
-        private Timer _timer;
+        private ITimer _timer;
         private const string KeyName = "LEVEL_SCORE";
 
         public HighScoreManager()
@@ -18,9 +19,9 @@ namespace Services
         private void Init()
         {
             var services = ServiceLocator.ServiceLocator.Current;
-            var eventBus = services.Get<EventBus.EventBus>();
+            var eventBus = services.Get<IEventBus>();
             eventBus.Subscribe(EventList.Victory, AutoSave);
-            _timer = services.Get<Timer>();
+            _timer = services.Get<ITimer>();
         }
         
         
@@ -43,7 +44,7 @@ namespace Services
             PlayerPrefs.Save();
         }
 
-        private float Get(int levelIndex)
+        public float Get(int levelIndex)
         {
             var key = $"{KeyName}_{levelIndex}";
             var val = PlayerPrefs.GetFloat(key, 0);

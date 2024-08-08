@@ -1,5 +1,6 @@
 using System;
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,11 +9,11 @@ public class GravityController : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
     private const float GravityValue = 9.81f;
     private bool _isStarted = false;
-    private EventBus _eventBus;
+    private IEventBus _eventBus;
     private void Start()
     {
         var services = ServiceLocator.Current;
-        _eventBus = services.Get<EventBus>();
+        _eventBus = services.Get<IEventBus>();
     }
 
     public void OnBeginDrag(PointerEventData data)

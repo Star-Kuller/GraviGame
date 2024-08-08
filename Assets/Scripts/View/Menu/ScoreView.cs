@@ -1,4 +1,5 @@
 using Services;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace View.Menu
             get
             {
                 var services = ServiceLocator.Current;
-                var record = services.Get<HighScoreManager>().HighScore;
+                var record = services.Get<IHighScoreManager>().HighScore;
 
                 var recordMinutes = Mathf.FloorToInt(record / 60f);
                 var recordSeconds = Mathf.FloorToInt(record % 60f);
@@ -26,7 +27,7 @@ namespace View.Menu
             get
             {
                 var services = ServiceLocator.Current;
-                var time = services.Get<Timer>().Time;
+                var time = services.Get<ITimer>().Time;
                 
                 var minutes = Mathf.FloorToInt(time / 60f);
                 var seconds = Mathf.FloorToInt(time % 60f);

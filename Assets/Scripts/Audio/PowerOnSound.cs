@@ -1,5 +1,6 @@
 using System;
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -15,7 +16,7 @@ namespace Audio
         private void Start()
         {
             var services = ServiceLocator.Current;
-            services.Get<EventBus>().Subscribe(EventList.ShowPauseButton, PlayOff);
+            services.Get<IEventBus>().Subscribe(EventList.ShowPauseButton, PlayOff);
         }
 
         private void OnEnable()

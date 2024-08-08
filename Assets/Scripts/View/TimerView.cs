@@ -1,4 +1,5 @@
 using Services;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using TMPro;
 using UnityEngine;
@@ -7,12 +8,12 @@ namespace View
 {
     public class TimerView : MonoBehaviour
     {
-        private Timer _timer;
+        private ITimer _timer;
         private TextMeshProUGUI _text;
         private void Start()
         {
             var services = ServiceLocator.Current;
-            _timer = services.Get<Timer>();
+            _timer = services.Get<ITimer>();
             _text = GetComponent<TextMeshProUGUI>();
         }
 

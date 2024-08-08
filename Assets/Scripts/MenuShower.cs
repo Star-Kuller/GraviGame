@@ -1,5 +1,6 @@
 using System;
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class MenuShower : MonoBehaviour
     private void Start()
     {
         var services = ServiceLocator.Current;
-        var eventBus = services.Get<EventBus>();
+        var eventBus = services.Get<IEventBus>();
         
         eventBus.Subscribe(EventList.Victory, ShowVictory);
         eventBus.Subscribe(EventList.Pause, ShowPause);

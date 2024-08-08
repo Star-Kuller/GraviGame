@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace View
     public class PauseButtonView : MonoBehaviour
     {
         [SerializeField] private float animationDuration = 0.45f;
-        private EventBus _eventBus;
+        private IEventBus _eventBus;
         private RectTransform _uiElement;
         private float _originalSizeY;
         
@@ -21,7 +22,7 @@ namespace View
         private void Start()
         {
             var services = ServiceLocator.Current;
-            _eventBus = services.Get<EventBus>();
+            _eventBus = services.Get<IEventBus>();
             _eventBus.Subscribe(EventList.Victory, HideAnimation);
             _eventBus.Subscribe(EventList.Loose, HideAnimation);
             _eventBus.Subscribe(EventList.ShowPauseButton, ShowAnimation);

@@ -1,5 +1,6 @@
 using System;
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -25,7 +26,7 @@ namespace Audio
             _audioSource.playOnAwake = false;
             _audioSource.loop = true;
             var services = ServiceLocator.Current;
-            var eventBus = services.Get<EventBus>();
+            var eventBus = services.Get<IEventBus>();
             eventBus.Subscribe(EventList.Pause, _audioSource.Pause);
             eventBus.Subscribe(EventList.Victory, _audioSource.Pause);
             eventBus.Subscribe(EventList.Loose, _audioSource.Pause);

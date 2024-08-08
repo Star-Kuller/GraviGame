@@ -1,5 +1,6 @@
 using Services;
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 
@@ -11,13 +12,13 @@ public class LvlInitializer : MonoBehaviour
 
         Physics2D.gravity = new Vector2(0, 0);
         
-        services.TryRegister(new EventBus());
-        services.TryRegister(new FinishSystem());
+        services.TryRegister<IEventBus>(new EventBus());
+        services.TryRegister<IFinishSystem>(new FinishSystem());
 
-        if (services.IsRegistered<Timer>())
-            services.Unregister<Timer>();
-        services.Register(new Timer());
+        if (services.IsRegistered<ITimer>())
+            services.Unregister<ITimer>();
+        services.Register<ITimer>(new Timer());
         
-        services.TryRegister(new HighScoreManager());
+        services.TryRegister<IHighScoreManager>(new HighScoreManager());
     }
 }

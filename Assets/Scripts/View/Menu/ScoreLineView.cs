@@ -1,4 +1,4 @@
-using Services;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 
@@ -11,8 +11,8 @@ namespace View.Menu
         {
             var services = ServiceLocator.Current;
 
-            var time = services.Get<Timer>().Time;
-            var record = services.Get<HighScoreManager>().HighScore;
+            var time = services.Get<ITimer>().Time;
+            var record = services.Get<IHighScoreManager>().HighScore;
             
             var scoreLineWidth = transform.GetComponent<RectTransform>().rect.width;
             var right = scoreLineWidth - (Mathf.Clamp(record / time, 0, 1) * scoreLineWidth);

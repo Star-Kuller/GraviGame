@@ -1,15 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Services.EventBus;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine;
 
 namespace Services
 {
-    public class FinishSystem : IService
+    public class FinishSystem : IFinishSystem
     {
         private readonly List<Finish> _finishes = new List<Finish>();
-        private EventBus.EventBus _eventBus;
+        private IEventBus _eventBus;
 
         public FinishSystem()
         {
@@ -19,7 +20,7 @@ namespace Services
         private void Init()
         {
             var services = ServiceLocator.ServiceLocator.Current;
-            _eventBus = services.Get<EventBus.EventBus>();
+            _eventBus = services.Get<IEventBus>();
             _eventBus.Subscribe(EventList.Finished, CheckAllFinishes);
         }
         public void AddFinish(Finish finish)
