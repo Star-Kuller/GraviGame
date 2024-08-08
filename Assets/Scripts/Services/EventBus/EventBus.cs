@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Services.Interfaces;
 using Services.ServiceLocator;
 using UnityEngine.Events;
 
 namespace Services.EventBus
 {
-    public class EventBus : IService
+    public class EventBus : IEventBus
     {
         private readonly Dictionary<EventList, UnityEvent> _events = new Dictionary<EventList, UnityEvent>();
 

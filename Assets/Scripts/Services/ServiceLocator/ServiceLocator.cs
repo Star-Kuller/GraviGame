@@ -6,12 +6,10 @@ namespace Services.ServiceLocator
 {
     public class ServiceLocator
     {
-        private ServiceLocator()
-        { 
-            
-        }
+        #region Singletone
 
-        private readonly Dictionary<string, IService> _services = new Dictionary<string, IService>();
+        private ServiceLocator()
+        { }
         
         private static ServiceLocator _current = new ServiceLocator();
 
@@ -20,14 +18,13 @@ namespace Services.ServiceLocator
         /// </summary>
         public static ServiceLocator Current
         {
-            get
-            {
-                if (_current == null)
-                    _current = new ServiceLocator();
-                return _current;
-            }
+            get => _current ??= new ServiceLocator();
             set => _current = value;
         }
+
+        #endregion
+        
+        private readonly Dictionary<string, IService> _services = new Dictionary<string, IService>();
         
         /// <summary>
         /// Получить сервис из текущего сервис локатора
@@ -60,10 +57,10 @@ namespace Services.ServiceLocator
         }
 
         /// <summary>
-        /// Проверяет регистрацию сервиса в текущеме сервис локаторе
+        /// Проверяет регистрацию сервиса в текущем сервис локаторе
         /// </summary>
         /// <typeparam name="T">Тип сервиса</typeparam>
-        /// <returns>Сервис зарегистрироваван</returns>
+        /// <returns>Сервис зарегистрирован</returns>
         public bool IsRegistered<T>() where T : IService
         {
             var key = typeof(T).Name;
@@ -73,20 +70,35 @@ namespace Services.ServiceLocator
         /// <summary>
         /// Регистрирует сервис в текущем сервис локаторе
         /// </summary>
-        /// <typeparam name="T">Тип сервиса </typeparam>
+        /// <typeparam name="T">Тип сервиса</typeparam>
         /// <param name="service">Экземпляр сервиса</param>
         public void Register<T>(T service) where T : IService
         {
             var key = typeof(T).Name;
             
-            if (_services.ContainsKey(key))
+            if (!_services.TryAdd(key, service))
             {
                 Debug.LogError(
                     $"Attempted to register service of type {key} which is already registered with the {GetType().Name}.");
-                return;
             }
-
-            _services.Add(key, service);
+        }
+        
+        /// <summary>
+        /// Регистрирует сервис в текущем сервис локаторе
+        /// </summary>
+        /// <typeparam name="TInterface">Интерфейс сервиса</typeparam>
+        /// <typeparam name="T">Тип сервиса</typeparam>
+        /// <param name="service">Экземпляр сервиса</param>
+        public void Register<TInterface,T>(T service) 
+            where TInterface : IService
+            where T : class, TInterface
+        {
+            var key = typeof(TInterface).Name;
+            if (!_services.TryAdd(key, service))
+            {
+                Debug.LogError(
+                    $"Attempted to register service of type {key} which is already registered with the {GetType().Name}.");
+            }
         }
         
         /// <summary>
@@ -97,14 +109,21 @@ namespace Services.ServiceLocator
         public bool TryRegister<T>(T service) where T : IService
         {
             var key = typeof(T).Name;
-            
-            if (_services.ContainsKey(key))
-            {
-                return false;
-            }
-
-            _services.Add(key, service);
-            return true;
+            return _services.TryAdd(key, service);
+        }
+        
+        /// <summary>
+        /// Пытается зарегистрировать сервис в текущем сервис локаторе
+        /// </summary>
+        /// <typeparam name="TInterface">Интерфейс сервиса</typeparam>
+        /// <typeparam name="T">Тип сервиса</typeparam>
+        /// <param name="service">Экземпляр сервиса</param>
+        public bool TryRegister<TInterface,T>(T service)
+            where TInterface : IService
+            where T : class, TInterface
+        {
+            var key = typeof(TInterface).Name;
+            return _services.TryAdd(key, service);
         }
 
         /// <summary>
