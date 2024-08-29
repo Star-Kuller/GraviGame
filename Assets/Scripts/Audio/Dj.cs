@@ -93,6 +93,7 @@ namespace Audio
                     NextSource.volume = fadeProgress;
                     if (!NextSource.isPlaying && !_isPaused)
                     {
+                        NextSource.clip = NextClip;
                         NextSource.Play();
                     }
                 }
@@ -106,9 +107,11 @@ namespace Audio
                 if (!CurrentSource.isPlaying && !_isSongStopped)
                 {
                     _currentIndex++;
-                    if(!CurrentSource.isPlaying) 
+                    if (!CurrentSource.isPlaying)
+                    {
+                        CurrentSource.clip = CurrentClip;
                         CurrentSource.Play();
-                    NextSource.clip = NextClip;
+                    }
                 }
                 yield return null;
             }
