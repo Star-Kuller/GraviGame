@@ -11,54 +11,58 @@ namespace Audio
         [SerializeField] private float fadeDuration = 2f;
         [SerializeField] private AudioMixerGroup audioMixerGroup;
         
-        public float AudioProgress { get; private set; } = 0f;
-        public string CurrentSongName => audioClips[_currentClipIndex].name;
-        public bool IsPaused { get; private set; } = false;
-        
+        public float Progress
+        {
+            get => CurrentSource.time / CurrentClip.length;
+            set => CurrentSource.time = Mathf.Clamp(value * CurrentClip.length, 0, CurrentClip.length);
+        }
+
+        public string CurrentSongName => CurrentClip.name;
+        public float CurrentSongTime => CurrentSource.time;
+        public float CurrentSongLength => CurrentClip.length;
+
+        public bool IsPaused
+        {
+            get => _isPaused;
+            set
+            {
+                _isPaused = value;
+                if(value)
+                    StopSong();
+                else
+                    ResumeSong();
+            }
+        }
+
         private AudioSource[] _audioSources;
-        private int _currentAudioSourceIndex = 0;
-        private int _currentClipIndex = 0;
-        private int NextSourceIndex => (_currentAudioSourceIndex + 1) % 2;
-        private int NextClipIndex => (_currentClipIndex + 1) % audioClips.Count;
+        private int _currentIndex;
+        private AudioSource NextSource => _audioSources[(_currentIndex + 1) % 2];
+        private AudioClip NextClip => audioClips[(_currentIndex + 1) % audioClips.Count];
+        private AudioSource CurrentSource => _audioSources[_currentIndex % 2];
+        private AudioClip CurrentClip => audioClips[_currentIndex % audioClips.Count];
         
-        private bool _isApplicationPaused = false;
+        private bool _isPaused;
+        private bool _isSongStopped;
+
+        public void Next()
+        {
+            if(CurrentSource.time > CurrentClip.length - fadeDuration)
+                CurrentSource.Stop();
+            else
+                CurrentSource.time = CurrentClip.length - fadeDuration;
+        }
 
         private void OnApplicationPause(bool pauseStatus)
         {
-            _isApplicationPaused = pauseStatus;
-            HandleApplicationStateChange();
+            StopSong();
         }
 
         private void OnApplicationFocus(bool hasFocus)
         {
-            _isApplicationPaused = !hasFocus;
-            HandleApplicationStateChange();
-        }
-
-        private void HandleApplicationStateChange()
-        {
-            if(_audioSources is not { Length: 2 }) return;
-            
-            if (_isApplicationPaused)
-            {
-                foreach (var source in _audioSources)
-                {
-                    if (source != null && source.isPlaying)
-                        source.Pause();
-                }
-            }
-            else
-            {
-                foreach (var source in _audioSources)
-                {
-                    if (source != null && !source.isPlaying)
-                        source.UnPause();
-                }
-            }
+            if(!_isPaused) ResumeSong();
         }
         
-        
-        private void Start()
+        private void Awake()
         {
             _audioSources = new AudioSource[2];
             for (var i = 0; i < 2; i++)
@@ -67,114 +71,61 @@ namespace Audio
                 _audioSources[i].loop = false;
                 _audioSources[i].outputAudioMixerGroup = audioMixerGroup;
             }
+
+            if (audioClips.Count == 0) return;
             
-            if (audioClips.Count > 0)
-            {
-                StartCoroutine(PlayAudioSequence());
-            }
+            CurrentSource.clip = CurrentClip;
+            NextSource.clip = NextClip;
+            CurrentSource.Play();
+            StartCoroutine(PlayAudioSequence());
         }
 
         private IEnumerator PlayAudioSequence()
         {
             while (true)
             {
-                var currentSource = _audioSources[_currentAudioSourceIndex];
-                var nextSource = _audioSources[NextSourceIndex];
-                currentSource.clip = audioClips[_currentClipIndex];
-                nextSource.clip = audioClips[NextClipIndex];
-
-                if(!currentSource.isPlaying && !nextSource.isPlaying && !IsPaused && !_isApplicationPaused)
-                    currentSource.Play();
-
-                StartCoroutine(PlayAudioWithFade(currentSource, nextSource));
-                
-                yield return new WaitUntil(() => !currentSource.isPlaying && !IsPaused && !_isApplicationPaused);
-                _currentAudioSourceIndex = NextSourceIndex;
-                _currentClipIndex = NextClipIndex;
-            }
-        }
-
-        private IEnumerator PlayAudioWithFade(AudioSource current, AudioSource next)
-        {
-            while (current.isPlaying || IsPaused || _isApplicationPaused)
-            {
-                if (current.time >= current.clip.length - fadeDuration)
+                if (CurrentSource.time > CurrentClip.length - fadeDuration)
                 {
-                    if(!next.isPlaying && !IsPaused && !_isApplicationPaused) next.Play();
-                    var fade = (current.clip.length - current.time) / fadeDuration;
-                    current.volume = fade;
-                    next.volume = 1 - fade;
-
-                    if (current.time >= current.clip.length - 0.01f)
+                    var fadeTime = CurrentSource.time - (CurrentClip.length - fadeDuration);
+                    NextSource.time = fadeTime;
+                    var fadeProgress = fadeTime / fadeDuration;
+                    CurrentSource.volume = 1 - fadeProgress;
+                    NextSource.volume = fadeProgress;
+                    if (!NextSource.isPlaying && !_isPaused)
                     {
-                        current.time = 0.01f;
-                        current.Stop();
+                        NextSource.Play();
                     }
                 }
                 else
                 {
-                    current.volume = 1;
-                    next.volume = 0;
-                    next.time = 0.01f;
+                    CurrentSource.volume = 1;
+                    NextSource.volume = 0;
+                    NextSource.time = 0;
+                    NextSource.Stop();
+                }
+                if (!CurrentSource.isPlaying && !_isSongStopped)
+                {
+                    _currentIndex++;
+                    if(!CurrentSource.isPlaying) 
+                        CurrentSource.Play();
+                    NextSource.clip = NextClip;
                 }
                 yield return null;
             }
         }
-        
 
-        #region ControlFromInspector
-        
-        private void Update()
+        private void StopSong()
         {
-            AudioProgress = _audioSources[_currentAudioSourceIndex].time / _audioSources[_currentAudioSourceIndex].clip.length;
-        }
-
-        public void SetAudioProgress(float progress)
-        {
-            var currentSource = _audioSources[_currentAudioSourceIndex];
-            var nextSource = _audioSources[NextSourceIndex];
-            var newTime = progress * currentSource.clip.length;
-            
-            if (newTime < currentSource.clip.length)
-                currentSource.time = newTime;
-            
-            if (!(currentSource.time >= currentSource.clip.length - fadeDuration)) return;
-            
-            var newNextTime = currentSource.clip.length - currentSource.time;
-            if (newNextTime < nextSource.clip.length)
-                nextSource.time = newNextTime;
-            
-            nextSource.Play();
+            _isSongStopped = true;
+            CurrentSource.Pause();
+            NextSource.Pause();
         }
         
-        public void TogglePause()
+        private void ResumeSong()
         {
-            IsPaused = !IsPaused;
-            var currentSource = _audioSources[_currentAudioSourceIndex];
-            var nextSource = _audioSources[NextSourceIndex];
-            if (IsPaused)
-            {
-                currentSource.Pause();
-                nextSource.Pause();
-            }
-            else
-            {
-                currentSource.UnPause();
-                nextSource.UnPause();
-            }
+            _isSongStopped = false;
+            CurrentSource.UnPause();    
+            NextSource.UnPause();
         }
-
-        public void Next()
-        {
-            IsPaused = false;
-            var currentSource = _audioSources[_currentAudioSourceIndex];
-            var nextSource = _audioSources[NextSourceIndex];
-            currentSource.Stop();
-            currentSource.time = 0.01f;
-            nextSource.time = 0.0f;
-        }
-        
-        
-        #endregion
     }
 }

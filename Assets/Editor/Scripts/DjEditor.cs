@@ -24,25 +24,36 @@ namespace Editor.Scripts
             GUILayout.Space(10);
 
             EditorGUILayout.BeginVertical(GUI.skin.box);
-            GUILayout.Label(dj.CurrentSongName, songStyle, GUILayout.Height(40));
+            var time = "00:00";
+            var length = "00:00";
+            var song = "#game is not running#";
+            if (Application.isPlaying)
+            {
+                time = $"{(int)(dj.CurrentSongTime / 60):00}:{(int)(dj.CurrentSongTime % 60):00}";
+                length = $"{(int)(dj.CurrentSongLength / 60):00}:{(int)(dj.CurrentSongLength % 60):00}";
+                song = dj.CurrentSongName;
+            }
+            GUILayout.Label($"{song}\n{time}/{length}", songStyle, GUILayout.Height(40));
             EditorGUILayout.EndVertical();
 
             GUILayout.Space(10);
-
-            EditorGUI.BeginChangeCheck();
-            var newProgress = EditorGUILayout.Slider(dj.AudioProgress, 0f, 0.98f);
-            if (EditorGUI.EndChangeCheck())
+            if (Application.isPlaying)
             {
-                dj.SetAudioProgress(newProgress);
+                EditorGUI.BeginChangeCheck();
+                var newProgress = EditorGUILayout.Slider(dj.Progress, 0f, 0.98f);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    dj.Progress = newProgress;
+                }
             }
-
+            
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(dj.IsPaused ? "Resume" : "Pause", GUILayout.Width(80)))
+            if (GUILayout.Button(dj.IsPaused ? "Resume" : "Pause", GUILayout.Width(80)) && Application.isPlaying)
             {
-                dj.TogglePause();
+                dj.IsPaused = !dj.IsPaused;
             }
-            if (GUILayout.Button("Next", GUILayout.Width(80)))
+            if (GUILayout.Button("Next", GUILayout.Width(80)) && Application.isPlaying)
             {
                 dj.Next();
             }
